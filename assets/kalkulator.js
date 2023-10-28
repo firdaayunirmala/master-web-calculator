@@ -1,5 +1,5 @@
 const calculator ={
-    displayNumber: '0',
+    displayNumber: 0,
     operator: null,
     firstNumber: null,
     waitingForSecondNumber: false 
@@ -16,15 +16,6 @@ function clearCalculator(){
     calculator.waitingForSecondNumber = false;
 }
 
-const buttons = document.querySelectorAll(".button");
-for (let button of buttons){
-    buttons.addEventListener('click', function(event){
-        const target = event.target;
-        inputDigit(target.innerText);
-        updateDisplay()
-    });
-}
-
 function inputDigit(digit){
     if (calculator.displayNumber === '0'){
         calculator.displayNumber = digit;
@@ -32,6 +23,40 @@ function inputDigit(digit){
         calculator.displayNumber += digit;
     }
 }
+
+const buttons = document.querySelectorAll(".button");
+for (let button of buttons){
+    button.addEventListener("click", function(event){
+        const target = event.target;
+
+        if(target.classList.contains('clear')){
+            clearCalculator();
+            updateDisplay();
+            return;
+        }
+    
+        if(target.classList.contains('negative')) {
+            inverseNumber();
+            updateDisplay();
+            return;
+        }
+    
+        if(target.classList.contains('equals')){
+            performCalculation();
+            updateDisplay();
+            return;
+        }
+    
+        if (target.classList.contains('operator')){
+            handleOperator(target.innerText);
+            return;
+        }
+        
+        inputDigit(target.innerText);
+        updateDisplay()
+    });
+}
+
 
 
 // button.addEventListener('click', function(event){
@@ -47,36 +72,6 @@ function inputDigit(digit){
 //     updateDisplay()
 // });
 
-buttons.addEventListener('click',function(event)
-{
-    const target = event.target;
-
-    if(target.classList.contains('clear')){
-        clearCalculator();
-        updateDisplay();
-        return;
-    }
-
-    if(target.classList.contains('negative')) {
-        inverseNumber();
-        updateDisplay();
-        return;
-    }
-
-    if(target.classList.contains('equals')){
-        performCalculation();
-        updateDisplay();
-        return;
-    }
-
-    if (target.classList.contains('operator')){
-        handleOperator(target.innerText);
-        return;
-    }
-
-    inputDigit(target.innerText);
-    updateDisplay()
-});
 
 function inverseNumber(){
     if (calculator,displayNumber === '0'){
